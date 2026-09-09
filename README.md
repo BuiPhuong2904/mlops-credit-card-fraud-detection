@@ -8,8 +8,9 @@ This project builds an automated Machine Learning Operations (MLOps) pipeline fo
 
 ### Project Title
 
-**Xây dựng Hệ thống MLOps Phát hiện Gian lận Tín dụng trên Nền tảng Azure**
-**Building a Credit Card Fraud Detection MLOps System on Microsoft Azure**
+Xây dựng Hệ thống MLOps Phát hiện Gian lận Tín dụng trên Nền tảng Azure
+
+Building a Credit Card Fraud Detection MLOps System on Microsoft Azure
 
 ## Main Objectives
 
