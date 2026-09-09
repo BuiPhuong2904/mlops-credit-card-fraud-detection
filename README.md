@@ -6,7 +6,7 @@ A cloud-based MLOps platform for automating the training, deployment, and monito
 
 This project builds an automated Machine Learning Operations (MLOps) pipeline for a digital bank to detect fraudulent transactions. The system handles highly imbalanced historical transaction data, automates the training process, registers the best-performing model, and deploys it as a REST API. It also includes continuous monitoring to detect data drift and ensure model reliability in a production environment.
 
-### Project Title
+## Project Title
 
 Xây dựng Hệ thống MLOps Phát hiện Gian lận Tín dụng trên Nền tảng Azure
 
