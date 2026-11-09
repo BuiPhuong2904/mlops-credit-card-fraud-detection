@@ -1,0 +1,10 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: blue
+endpoint_name: fraud-ep-b01
+model: azureml:fraud-detector:1
+environment: azureml:fraud-infer-env@latest
+code_configuration:
+  code: ../../src/serving
+  scoring_script: score.py
+instance_type: Standard_DS1_v2
+instance_count: 1

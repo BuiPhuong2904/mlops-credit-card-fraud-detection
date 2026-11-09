@@ -1,0 +1,72 @@
+name: CD - Deploy fraud model to Azure ML endpoint
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/serving/**"
+      - "pipelines/endpoint/**"
+      - "pipelines/environment/infer_*"
+      - "tests/**"
+      - ".github/workflows/cd-deploy.yml"
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP: rg-fraud-mlops
+  WORKSPACE: mlw-fraud-detection
+  ENDPOINT_NAME: fraud-ep-b01
+
+jobs:
+  test:
+    name: Unit test API input
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install test dependencies
+        run: pip install pytest requests numpy pandas
+      - name: Run unit tests
+        run: pytest tests -v
+
+  deploy:
+    name: Deploy to Managed Online Endpoint
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Install Azure ML CLI extension and set defaults
+        run: |
+          az extension add -n ml -y
+          az configure --defaults group=$RESOURCE_GROUP workspace=$WORKSPACE
+
+      - name: Create or update endpoint
+        run: |
+          if az ml online-endpoint show -n $ENDPOINT_NAME > /dev/null 2>&1; then
+            az ml online-endpoint update -f pipelines/endpoint/endpoint.yml
+          else
+            az ml online-endpoint create -f pipelines/endpoint/endpoint.yml
+          fi
+
+      - name: Create or update deployment (blue)
+        run: |
+          if az ml online-deployment show -n blue -e $ENDPOINT_NAME > /dev/null 2>&1; then
+            az ml online-deployment update -f pipelines/endpoint/deployment.yml
+          else
+            az ml online-deployment create -f pipelines/endpoint/deployment.yml --all-traffic
+          fi
+
+      - name: Smoke test live endpoint
+        run: |
+          URL=$(az ml online-endpoint show -n $ENDPOINT_NAME --query scoring_uri -o tsv)
+          KEY=$(az ml online-endpoint get-credentials -n $ENDPOINT_NAME --query primaryKey -o tsv)
+          echo "::add-mask::$KEY"
+          pip install pytest requests numpy pandas
+          ENDPOINT_URL=$URL ENDPOINT_KEY=$KEY pytest tests -v

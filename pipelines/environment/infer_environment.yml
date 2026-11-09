@@ -1,0 +1,6 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+name: fraud-infer-env
+version: "1"
+image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu22.04:latest
+conda_file: infer_conda.yml
+description: Moi truong chay API cham diem gian lan (phien ban khop luc huan luyen)
