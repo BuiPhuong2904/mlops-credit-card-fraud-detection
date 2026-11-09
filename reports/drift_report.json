@@ -1,0 +1,214 @@
+{
+  "current": "data/prod_drifted.csv",
+  "n_reference": 284807,
+  "n_current": 20000,
+  "psi_threshold": 0.2,
+  "ks_alpha": 0.01,
+  "n_drifted_features": 5,
+  "dataset_drift": true,
+  "features": [
+    {
+      "feature": "V17",
+      "psi": 3.5136,
+      "ks_stat": 0.684,
+      "ks_pvalue": 0.0,
+      "drift": true
+    },
+    {
+      "feature": "V14",
+      "psi": 2.7311,
+      "ks_stat": 0.685,
+      "ks_pvalue": 0.0,
+      "drift": true
+    },
+    {
+      "feature": "V4",
+      "psi": 2.4177,
+      "ks_stat": 0.6119,
+      "ks_pvalue": 0.0,
+      "drift": true
+    },
+    {
+      "feature": "V11",
+      "psi": 2.2285,
+      "ks_stat": 0.5111,
+      "ks_pvalue": 0.0,
+      "drift": true
+    },
+    {
+      "feature": "Amount",
+      "psi": 0.2897,
+      "ks_stat": 0.2005,
+      "ks_pvalue": 0.0,
+      "drift": true
+    },
+    {
+      "feature": "V16",
+      "psi": 0.0008,
+      "ks_stat": 0.0072,
+      "ks_pvalue": 0.287801149080568,
+      "drift": false
+    },
+    {
+      "feature": "V27",
+      "psi": 0.0008,
+      "ks_stat": 0.0113,
+      "ks_pvalue": 0.01745714052412453,
+      "drift": false
+    },
+    {
+      "feature": "V25",
+      "psi": 0.0007,
+      "ks_stat": 0.0048,
+      "ks_pvalue": 0.7754151944394306,
+      "drift": false
+    },
+    {
+      "feature": "V26",
+      "psi": 0.0006,
+      "ks_stat": 0.0077,
+      "ks_pvalue": 0.21292884392219724,
+      "drift": false
+    },
+    {
+      "feature": "V21",
+      "psi": 0.0006,
+      "ks_stat": 0.0062,
+      "ks_pvalue": 0.46973050000634886,
+      "drift": false
+    },
+    {
+      "feature": "V8",
+      "psi": 0.0006,
+      "ks_stat": 0.0102,
+      "ks_pvalue": 0.040405625137787116,
+      "drift": false
+    },
+    {
+      "feature": "V1",
+      "psi": 0.0005,
+      "ks_stat": 0.0054,
+      "ks_pvalue": 0.6360357093607342,
+      "drift": false
+    },
+    {
+      "feature": "V12",
+      "psi": 0.0005,
+      "ks_stat": 0.0063,
+      "ks_pvalue": 0.44535785359307123,
+      "drift": false
+    },
+    {
+      "feature": "V23",
+      "psi": 0.0005,
+      "ks_stat": 0.0071,
+      "ks_pvalue": 0.3063192657883401,
+      "drift": false
+    },
+    {
+      "feature": "V20",
+      "psi": 0.0005,
+      "ks_stat": 0.0049,
+      "ks_pvalue": 0.7580632432796263,
+      "drift": false
+    },
+    {
+      "feature": "V19",
+      "psi": 0.0005,
+      "ks_stat": 0.0042,
+      "ks_pvalue": 0.8961075076376144,
+      "drift": false
+    },
+    {
+      "feature": "V13",
+      "psi": 0.0005,
+      "ks_stat": 0.0067,
+      "ks_pvalue": 0.37245785892010386,
+      "drift": false
+    },
+    {
+      "feature": "V6",
+      "psi": 0.0005,
+      "ks_stat": 0.0076,
+      "ks_pvalue": 0.22958696764781605,
+      "drift": false
+    },
+    {
+      "feature": "V2",
+      "psi": 0.0004,
+      "ks_stat": 0.0078,
+      "ks_pvalue": 0.2045430815998206,
+      "drift": false
+    },
+    {
+      "feature": "V3",
+      "psi": 0.0004,
+      "ks_stat": 0.0081,
+      "ks_pvalue": 0.1711088701329324,
+      "drift": false
+    },
+    {
+      "feature": "V5",
+      "psi": 0.0004,
+      "ks_stat": 0.0034,
+      "ks_pvalue": 0.9819228798530223,
+      "drift": false
+    },
+    {
+      "feature": "V18",
+      "psi": 0.0004,
+      "ks_stat": 0.0039,
+      "ks_pvalue": 0.9364197668209395,
+      "drift": false
+    },
+    {
+      "feature": "V22",
+      "psi": 0.0004,
+      "ks_stat": 0.0039,
+      "ks_pvalue": 0.9424098920537053,
+      "drift": false
+    },
+    {
+      "feature": "V10",
+      "psi": 0.0004,
+      "ks_stat": 0.0044,
+      "ks_pvalue": 0.8682319701597047,
+      "drift": false
+    },
+    {
+      "feature": "V15",
+      "psi": 0.0004,
+      "ks_stat": 0.0048,
+      "ks_pvalue": 0.7876794564448153,
+      "drift": false
+    },
+    {
+      "feature": "V28",
+      "psi": 0.0003,
+      "ks_stat": 0.0061,
+      "ks_pvalue": 0.47946066404372745,
+      "drift": false
+    },
+    {
+      "feature": "V9",
+      "psi": 0.0003,
+      "ks_stat": 0.0064,
+      "ks_pvalue": 0.42533050404562134,
+      "drift": false
+    },
+    {
+      "feature": "V7",
+      "psi": 0.0002,
+      "ks_stat": 0.0065,
+      "ks_pvalue": 0.4044989292091207,
+      "drift": false
+    },
+    {
+      "feature": "V24",
+      "psi": 0.0,
+      "ks_stat": 0.0031,
+      "ks_pvalue": 0.9948137725822552,
+      "drift": false
+    }
+  ]
+}
