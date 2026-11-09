@@ -216,3 +216,13 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Du an MLOps fraud detection
+data/
+*.csv
+*.parquet
+mlruns/
+.azureml/
+outputs/
+mlflow.db
+mlartifacts/
