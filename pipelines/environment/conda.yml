@@ -1,0 +1,16 @@
+name: fraud-train-env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+      - mlflow==2.16.2
+      - azureml-mlflow
+      - scikit-learn
+      - imbalanced-learn
+      - lightgbm
+      - pandas
+      - pyarrow
+      - numpy<2
+      - cloudpickle

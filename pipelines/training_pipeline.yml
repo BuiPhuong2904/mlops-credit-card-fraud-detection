@@ -1,0 +1,119 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+display_name: fraud-detection-training
+experiment_name: fraud-detection-pipeline
+description: preprocess -> train (rf, lgbm) -> evaluate -> register
+
+settings:
+  default_compute: azureml:cpu-cluster
+
+inputs:
+  raw_data:
+    type: uri_file
+    path: azureml:creditcard-raw@latest
+  target_recall: 0.85
+  min_recall: 0.80
+  model_name: fraud-detector
+
+jobs:
+  preprocess:
+    type: command
+    display_name: preprocess
+    code: ../src
+    environment: azureml:fraud-train-env@latest
+    command: >-
+      python preprocess.py
+      --raw_data ${{inputs.raw_data}}
+      --output_dir ${{outputs.processed_data}}
+    inputs:
+      raw_data: ${{parent.inputs.raw_data}}
+    outputs:
+      processed_data:
+        type: uri_folder
+
+  train_rf:
+    type: command
+    display_name: train_random_forest
+    code: ../src
+    environment: azureml:fraud-train-env@latest
+    command: >-
+      python train.py
+      --train_data ${{inputs.processed_data}}/train.parquet
+      --test_data ${{inputs.processed_data}}/test.parquet
+      --model_type rf
+      --imbalance smote
+      --target_recall ${{inputs.target_recall}}
+      --model_output ${{outputs.model}}
+      --metrics_output ${{outputs.metrics}}
+    inputs:
+      processed_data: ${{parent.jobs.preprocess.outputs.processed_data}}
+      target_recall: ${{parent.inputs.target_recall}}
+    outputs:
+      model:
+        type: uri_folder
+      metrics:
+        type: uri_folder
+
+  train_lgbm:
+    type: command
+    display_name: train_lightgbm
+    code: ../src
+    environment: azureml:fraud-train-env@latest
+    command: >-
+      python train.py
+      --train_data ${{inputs.processed_data}}/train.parquet
+      --test_data ${{inputs.processed_data}}/test.parquet
+      --model_type lgbm
+      --imbalance smote
+      --target_recall ${{inputs.target_recall}}
+      --model_output ${{outputs.model}}
+      --metrics_output ${{outputs.metrics}}
+    inputs:
+      processed_data: ${{parent.jobs.preprocess.outputs.processed_data}}
+      target_recall: ${{parent.inputs.target_recall}}
+    outputs:
+      model:
+        type: uri_folder
+      metrics:
+        type: uri_folder
+
+  evaluate:
+    type: command
+    display_name: evaluate_select_best
+    code: ../src
+    environment: azureml:fraud-train-env@latest
+    command: >-
+      python evaluate.py
+      --rf_metrics ${{inputs.rf_metrics}}
+      --rf_model ${{inputs.rf_model}}
+      --lgbm_metrics ${{inputs.lgbm_metrics}}
+      --lgbm_model ${{inputs.lgbm_model}}
+      --min_recall ${{inputs.min_recall}}
+      --selected_model ${{outputs.selected_model}}
+      --decision ${{outputs.decision}}
+    inputs:
+      rf_metrics: ${{parent.jobs.train_rf.outputs.metrics}}
+      rf_model: ${{parent.jobs.train_rf.outputs.model}}
+      lgbm_metrics: ${{parent.jobs.train_lgbm.outputs.metrics}}
+      lgbm_model: ${{parent.jobs.train_lgbm.outputs.model}}
+      min_recall: ${{parent.inputs.min_recall}}
+    outputs:
+      selected_model:
+        type: uri_folder
+      decision:
+        type: uri_folder
+
+  register:
+    type: command
+    display_name: register_model
+    code: ../src
+    environment: azureml:fraud-train-env@latest
+    command: >-
+      python register.py
+      --model_dir ${{inputs.selected_model}}
+      --decision ${{inputs.decision}}
+      --model_name ${{inputs.model_name}}
+    inputs:
+      selected_model: ${{parent.jobs.evaluate.outputs.selected_model}}
+      decision: ${{parent.jobs.evaluate.outputs.decision}}
+      model_name: ${{parent.inputs.model_name}}
